@@ -26,8 +26,10 @@ Need to be assigned using a distributed amount + person role
 - xsc_*
 ### Start time
 Should be a distribution at 9-17, another distribution 17-23.59, another one 0-9
-###Duration
+### Duration
 Should be a normal normal distribution, perhaps left skwed because more sims should be shorter sims
+### Exit Type
+This is an optional argument where it directs the engine to regenerate a same token if user terminated the process.
 
 ## job_request
 Everything described above would combine into a job_request type for as 1 output result.
