@@ -32,7 +32,7 @@ Need to be assigned using a distributed amount + person role
 - voltus
 - xsc_*
 
-### Start time
+### Checkout time
 
 Should be a distribution at 9-17, another distribution 17-23.59, another one 0-9 The start time should be bounded by
 argument sent when instianting the an object.
