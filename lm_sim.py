@@ -2,6 +2,7 @@ from scipy import stats
 import numpy as np
 import datetime
 import time
+import random
 
 
 class lm_sim():
@@ -19,9 +20,9 @@ class lm_sim():
         self.sim_time_sigma = 1
         self._engine_mode()
 
-    def _convert_time_to_sec(self, timt_to_convert):
-        x = time.strptime(str(timt_to_convert).split(',')[0],'%H:%M:%S')
-        sec_out = datetime.timedelta(hours=x.tm_hour,minutes=x.tm_min,seconds=x.tm_sec).total_seconds()
+    def _convert_time_to_sec(self, time_to_convert):
+        x = time.strptime(str(time_to_convert).split(',')[0], '%H:%M:%S')
+        sec_out = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
         print(sec_out)
 
     def _engine_mode(self):
@@ -60,8 +61,20 @@ class lm_sim():
         # 9am to 6pm
         # 6pm to 12am
         # 12am to 9am
-
-        
+        drop = False
+        rand_checkout_time = random.randint(0, 24 * 60 * 60)  # Random time during the 24 hour day
+        if 9 * 60 * 60 < rand_checkout_time <= 18 * 60 * 60:  # 9am to 6pm, not doing anything
+            pass
+        elif 18 * 60 * 60 < rand_checkout_time <= 24 * 60 * 60:  # 6pm to 12am, randomly drop 75% of value
+            if random.randint(0, 3) != 1:
+                drop = True
+        elif 0 < rand_checkout_time <= 9 * 60 * 60:  # 12am to 9am, randomly drop 90% of value
+            if random.randint(0, 20) != 1:
+                drop = True
+        if not drop:
+            return rand_checkout_time
+        else:
+            return -1
 
     def _sim_duration(self):
         """
