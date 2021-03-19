@@ -31,6 +31,7 @@ class lm_sim():
 
         self._engine_mode()
         self._sim_checkout_time()
+        self._sim_checkin_time()
 
     def _engine_mode(self):
         if self.engine_mode == 'pre':

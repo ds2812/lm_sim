@@ -1,0 +1,8 @@
+-lic_type:
+  -vmms: 2000
+
+  - hosts:
+      -host1
+      -host2
+      -host3
+      -host4

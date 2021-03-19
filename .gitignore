@@ -1,3 +1,4 @@
 /.idea
 lm_test.py
 /__pycache__/
+*.csv

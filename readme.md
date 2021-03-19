@@ -48,3 +48,23 @@ This is an optional argument where it directs the engine to regenerate a same to
 ## job_request
 
 Everything described above would combine into a job_request type for as 1 output result.
+
+LM_SIM_MGR
+===========
+This is the simulator manager for lm_sim. It will do further database processing and also running simulations.
+
+Initial idea is to run 1 day of sim and do processing. If more days are required, just call this inst multiple times and
+combine them together.
+
+Dataframe Structure
+----------
+
+- 'user': user checking out
+- 'user_host': host checking out (handled by lm_sim_mgr, using .yaml)
+- 'display': (handled by lm_sim_mgr, using .yaml)
+- 'version': (handled by lm_sim_mgr, using .yaml)
+- 'server_host': (handled by lm_sim_mgr, using .yaml)
+- 'port': (handled by lm_sim_mgr, using .yaml)
+- 'handle': (handled by lm_sim_mgr, using .yaml)
+- 'checkout_time': time checking out
+- 'approved': Time slice algorithm is used to decide if a checkout is successful (handled by lm_sim_mgr)
