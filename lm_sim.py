@@ -5,6 +5,12 @@ import time
 import random
 
 
+def _convert_time_to_sec(time_to_convert):
+    x = time.strptime(str(time_to_convert).split(',')[0], '%H:%M:%S')
+    sec_out = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
+    print(sec_out)
+
+
 class lm_sim():
     """
     lmstat -a output data.
@@ -15,15 +21,16 @@ class lm_sim():
     def __init__(self, engine_mode, person):
         self.engine_mode = engine_mode
         self.person = person
-        self.min_sim_time = 30
+        self.min_sim_time = 60
         self.sim_time_mu = 1
         self.sim_time_sigma = 1
-        self._engine_mode()
+        self.checkout_time = None
+        self.sim_duration = None
+        self.checkin_time = None
+        self.valid = False
 
-    def _convert_time_to_sec(self, time_to_convert):
-        x = time.strptime(str(time_to_convert).split(',')[0], '%H:%M:%S')
-        sec_out = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
-        print(sec_out)
+        self._engine_mode()
+        self._sim_checkout_time()
 
     def _engine_mode(self):
         if self.engine_mode == 'pre':
@@ -57,21 +64,23 @@ class lm_sim():
     def _sim_checkout_time(self):
         """
         In seconds, generate a checkout time of the license.
+        :return: a checkout time in second if lucky, -1 if unlucky.
         """
         # 9am to 6pm
         # 6pm to 12am
         # 12am to 9am
-        drop = False
         rand_checkout_time = random.randint(0, 24 * 60 * 60)  # Random time during the 24 hour day
         if 9 * 60 * 60 < rand_checkout_time <= 18 * 60 * 60:  # 9am to 6pm, not doing anything
-            pass
+            self.valid = True
         elif 18 * 60 * 60 < rand_checkout_time <= 24 * 60 * 60:  # 6pm to 12am, randomly drop 75% of value
-            if random.randint(0, 3) != 1:
-                drop = True
+            if random.randint(0, 3) == 1:
+                self.valid = True
         elif 0 < rand_checkout_time <= 9 * 60 * 60:  # 12am to 9am, randomly drop 90% of value
-            if random.randint(0, 20) != 1:
-                drop = True
-        if not drop:
+            if random.randint(0, 20) == 1:
+                self.valid = True
+        if self.valid:
+            # If data is valid, it will update the class variable.
+            self.checkout_time = rand_checkout_time
             return rand_checkout_time
         else:
             return -1
@@ -82,12 +91,16 @@ class lm_sim():
         :return: random seconds of license taken
         """
         rand_sec = np.random.normal(self.sim_time_mu, self.sim_time_sigma)
-        if (rand_sec < self.min_sim_time):
+        if rand_sec < self.min_sim_time:
             rand_sec = self.min_sim_time  # Force simulation to minimum time if random value is less than random
+        self.sim_duration = rand_sec
         return rand_sec
 
     def _sim_checkin_time(self):
-        pass
+        if self.valid:
+            self._sim_duration()
+            self.checkin_time = self.checkout_time + self.sim_duration
+        # Check if it goes to next day
 
 
 if __name__ == '__main__':
