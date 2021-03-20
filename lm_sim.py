@@ -5,12 +5,6 @@ import time
 import random
 
 
-def _convert_time_to_sec(time_to_convert):
-    x = time.strptime(str(time_to_convert).split(',')[0], '%H:%M:%S')
-    sec_out = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
-    print(sec_out)
-
-
 class lm_sim():
     """
     lmstat -a output data.
