@@ -68,3 +68,4 @@ Dataframe Structure
 - 'handle': (handled by lm_sim_mgr, using .yaml)
 - 'checkout_time': time checking out
 - 'approved': Time slice algorithm is used to decide if a checkout is successful (handled by lm_sim_mgr)
+- 'processed': A flag suggesting that this row has already been processed regarding approve/reject license.

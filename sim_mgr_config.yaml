@@ -1,8 +1,5 @@
--lic_type:
-  -vmms: 2000
-
-  - hosts:
-      -host1
-      -host2
-      -host3
-      -host4
+lic_type:
+  cal_pex:  300
+  vmms:     5
+  xsc:      300
+  ciw:      200
