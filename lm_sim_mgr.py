@@ -151,3 +151,12 @@ class lm_sim_mgr():
             print(f"floating license")
             print(
                 f"{row['user']} {row['user_host']}, user_ip (v1.0) ({row['user_host']}/{row['port']} {row['handle']}), start {day} {date_converted.month}/{date_converted.day} {time_report}\n")
+
+# if __name__ == '__main__':
+    # Example usage of the code
+    # lsm = lm_sim_mgr(checkout_per_day=1000, engine_mode='design', person='design', lic_to_assign='vmms', time_slice=60)
+    # lsm._run_one_day()
+    # lsm._resource_readin()
+    # lsm._lic_alloc_by_time_slice()
+    # lsm.df_one_day.to_csv('checkout_summary_1970_01_01.csv')
+    # lsm.lmstat_query(date='1970_01_01', time='09:45:00')
