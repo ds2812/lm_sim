@@ -118,7 +118,7 @@ Example: lm_sim_mgr._lic_alloc_by_time_slice()
 This slices the result into time slices of 3600 secs. In a full 3600 second period, it will assign license to top X
 number of users where X=total license available.
 
-### lm_sim_mgr.lmstat_query(date, time, t_int)
+### lm_sim_mgr.lmstat_query(date, time)
 
 This function generates a short report with the time interval given. Detailed info at the top of the function.
 
