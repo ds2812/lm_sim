@@ -6,6 +6,7 @@ import datetime
 from datetime import datetime as dt
 import time
 import calendar
+import random
 
 
 def _convert_time_to_sec(time_to_convert):
@@ -26,6 +27,7 @@ class lm_sim_mgr():
         self.engine_mode = engine_mode
         self.engine_person = person
         self.lic = {}
+        self.user = []
         self.time_slice = time_slice
         self.lic_to_assign = lic_to_assign
         self.df_one_day = pd.DataFrame(
@@ -43,14 +45,18 @@ class lm_sim_mgr():
                      'approved',
                      'processed'])
 
-    def _resource_readin(self):
+    def _resource_readin(self, yaml_file):
         """
         This is to read in the .yaml file as a part of config.
         :return:
         """
-        with open(r'sim_mgr_config.yaml') as file:
+        with open(yaml_file) as file:
             documents = yaml.full_load(file)
-            for item, self.lic in documents.items():
+            for item, dict in documents.items():
+                if item == 'lic_type':
+                    self.lic = dict
+                elif item == 'user':
+                    self.user = dict.split()
                 # Iterate out the yaml file
                 pass
 
@@ -87,6 +93,7 @@ class lm_sim_mgr():
         :return: Update self.df_one_day with a simulated database
         """
         one_day_db = []
+        self._resource_readin(yaml_file='sim_mgr_user.yaml')
         l_lictype = self.lic_to_assign
         [l_user,
          l_user_host,
@@ -94,7 +101,7 @@ class lm_sim_mgr():
          l_version,
          l_server_host,
          l_port,
-         l_handle] = ['daniel',
+         l_handle] = ['default',
                       'user_host1',
                       '1',
                       '1.0',
@@ -102,6 +109,8 @@ class lm_sim_mgr():
                       '3721',
                       '40301']
         for i in range(self.checkout_per_day):
+            random_idx = random.randint(0, len(self.user) - 1)
+            l_user = self.user[random_idx]
             lm_sim_inst = lm_sim(engine_mode='design', person='design')
             if lm_sim_inst.valid:
                 one_day_db.append(lm_sim_inst.checkin_time / 3600)
@@ -156,7 +165,7 @@ class lm_sim_mgr():
     # Example usage of the code
     # lsm = lm_sim_mgr(checkout_per_day=1000, engine_mode='design', person='design', lic_to_assign='vmms', time_slice=60)
     # lsm._run_one_day()
-    # lsm._resource_readin()
+    # lsm._resource_readin(yaml_file='sim_mgr_config.yaml')
     # lsm._lic_alloc_by_time_slice()
     # lsm.df_one_day.to_csv('checkout_summary_1970_01_01.csv')
     # lsm.lmstat_query(date='1970_01_01', time='09:45:00')

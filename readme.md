@@ -93,7 +93,7 @@ Refer to [here](#LM_SIM) for other parameters
 This starts the simulator engine (lm_sim) with parameters given in the init. It will run a full day (24 hrs) of data and
 save in an internal DF: lm_sim_mgr.df_one_day
 
-### lm_sim_mgr.lsm._resource_readin()
+### lm_sim_mgr.lsm._resource_readin(yaml_file='sim_mgr_config.yaml')
 
 This reads resource in the config file: sim_mgr_config.yaml
 
